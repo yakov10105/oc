@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # This is the name of the "parent" app that finds your tools
+  name: cluster-addons-parent
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/yakov10105/oc.git
+    targetRevision: main
+
+    # This is the key: it points to your new directory
+    path: cluster-addons
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    # The 'Application' objects found in 'cluster-addons'
+    # will be created in the 'argocd' namespace.
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
