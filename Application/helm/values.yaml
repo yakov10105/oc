@@ -2,7 +2,7 @@ ReplicaNumber: 3
 
 containers:
   containerPort: 8080
-  image: 'quay.io/yakovkan/node-server'
+  image: 'quay.io/yakovkan/node-server:v3'
   tag: 'chart_v1'
 
 service:

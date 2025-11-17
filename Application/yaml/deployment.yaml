@@ -23,7 +23,7 @@ spec:
             - containerPort: 8080
               protocol: TCP
           imagePullPolicy: IfNotPresent
-          image: 'quay.io/yakovkan/node-server:v2'
+          image: 'quay.io/yakovkan/node-server:v3'
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
   strategy:
