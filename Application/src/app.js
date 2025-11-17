@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const router = express.Router();
+const client = require('prom-client');
 var port = process.env.PORT || 8080;
 
 
@@ -9,6 +10,17 @@ var port = process.env.PORT || 8080;
 var liveliness_new = 200
 var readiness_new = 200
 
+
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+const httpRequestsTotal = new client.Counter({
+  name: 'myapp_http_requests_total',
+  help: 'Total number of HTTP requests to my app',
+  labelNames: ['route']
+});
+
+register.registerMetric(httpRequestsTotal);
 
 // Route application to index.html file.
 router.get('/',function(req,res){
@@ -51,6 +63,11 @@ router.get('/readiness/:statuse', function(req,res){
   readiness_new = r_statuse;
   console.log(`New status code set ${r_statuse}`)
   res.redirect('/')
+});
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
 });
 
 //add the router
