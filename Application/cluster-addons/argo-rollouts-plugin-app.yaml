@@ -11,7 +11,7 @@ spec:
 
   source:
     # This is the official Git repo for the plugin
-    repoURL: https://github.com/argoproj/argo-rollouts-traffic-router-openshift.git
+    repoURL: https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-openshift
     # Point to the 'stable' branch
     targetRevision: stable
     # The directory in that repo containing the YAMLs to apply
