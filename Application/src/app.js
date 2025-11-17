@@ -65,7 +65,7 @@ router.get('/readiness/:statuse', function(req,res){
   res.redirect('/')
 });
 
-app.get('/metrics', async (req, res) => {
+router.get('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
   res.end(await register.metrics());
 });
