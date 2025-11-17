@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # This is the name of the Argo CD application itself
+  name: argo-rollouts
+  # This app definition must live in the 'argocd' namespace
+  namespace: argocd 
+  # Add a finalizer so Argo CD cleans up the CRDs if you delete this app
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  source:
+    # This is the official Helm repository for Argo projects
+    repoURL: https://argoproj.github.io/argo-helm
+    # The name of the chart to install
+    chart: argo-rollouts
+    # Pin to a specific version for stable, repeatable installs
+    targetRevision: "2.35.0" 
+
+  destination:
+    # 'https://kubernetes.default.svc' means the local cluster
+    server: 'https://kubernetes.default.svc'
+    # This is the namespace where the tool will be INSTALLED
+    namespace: argo-rollouts
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    # This tells Argo CD to create the 'argo-rollouts' namespace
+    # for you if it doesn't exist.
+    - CreateNamespace=true
